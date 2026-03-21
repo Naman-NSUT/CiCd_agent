@@ -1,6 +1,128 @@
+# ==============================
+# Python & Virtual Environments
+# ==============================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# ==============================
+# Node.js & Web Development
+# ==============================
+# Dependency directories
+node_modules/
+jspm_packages/
+dashboard/node_modules/
+dashboard/dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ==============================
+# Machine Learning & Data Files
+# ==============================
 *.csv
+*.tsv
+*.dat
 *.pth
 *.pt
-__pycache__/
-*.pyc
-.venv/
+*.h5
+*.pickle
+*.pkl
+
+# ==============================
+# Project Specific Local Data
+# ==============================
+data/
+neo4j_data/
+qdrant_data/
+qdrant_mem0_db/
+models_weights/
+results/
+.env
+.env.*
+!.env.example
+!.env.template
+
+# ==============================
+# OS & Editor Specific Files
+# ==============================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# IDEs
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.bak

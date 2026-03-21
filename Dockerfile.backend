@@ -1,0 +1,67 @@
+# Dockerfile.backend
+
+# --- Builder Stage ---
+# This stage installs all dependencies, including build-time dependencies.
+FROM python:3.11-slim as builder
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set work directory
+WORKDIR /app
+
+# Create and activate virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install dependencies
+# Copy only the requirements file to leverage Docker cache
+COPY requirements.prod.txt .
+RUN pip install --no-cache-dir -r requirements.prod.txt
+
+
+# --- Final Stage ---
+# This stage creates the final, smaller image.
+FROM python:3.11-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Create a non-root user
+RUN addgroup --system app && adduser --system --group app
+RUN mkdir -p /app/data && chown -R app:app /app/data
+RUN mkdir -p /home/app/.mem0 && chown -R app:app /home/app
+USER app
+
+# Set work directory
+WORKDIR /app
+
+# Create a directory for the mem0 library and set the correct permissions
+ENV MEM0_DIR=/home/app/.mem0
+
+# Copy the virtual environment from the builder stage
+COPY --from=builder /opt/venv /opt/venv
+
+# Activate the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy only the necessary application code
+# This prevents cache invalidation when irrelevant files change.
+COPY --chown=app:app ci_cd_analyzer ./ci_cd_analyzer
+COPY --chown=app:app ci_repair_agent ./ci_repair_agent
+COPY --chown=app:app agents ./agents
+COPY --chown=app:app models ./models
+COPY --chown=app:app scripts ./scripts
+COPY --chown=app:app server.py .
+COPY --chown=app:app main.py .
+COPY --chown=app:app run.py .
+COPY --chown=app:app drain3.ini .
+
+
+# Expose port
+EXPOSE 8000
+
+# Run the application
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]

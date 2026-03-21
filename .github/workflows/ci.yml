@@ -1,0 +1,42 @@
+name: CI/CD Classifier Regression
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  regression:
+    name: LangSmith Regression Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      GEMINI_API_KEY:          ${{ secrets.GEMINI_API_KEY }}
+      LANGCHAIN_API_KEY:       ${{ secrets.LANGCHAIN_API_KEY }}
+      LANGCHAIN_TRACING_V2:    "true"
+      LANGCHAIN_PROJECT:       "cicd-error-classifier"
+      LANGCHAIN_ENDPOINT:      "https://api.smith.langchain.com"
+      QDRANT_HOST:             "localhost"
+      QDRANT_PORT:             "6333"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify imports
+        run: python -c "import ci_cd_analyzer.graph; print('Import OK')"
+
+      - name: Run regression suite
+        run: python -m ci_cd_analyzer.eval_runner --threshold 0.90
+        # Exits with code 1 if accuracy < 90%, failing the workflow

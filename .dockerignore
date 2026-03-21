@@ -1,0 +1,13 @@
+venv/
+.git/
+neo4j_data/
+qdrant_data/
+qdrant_mem0_db/
+__pycache__/
+*.pyc
+dashboard/node_modules/
+.env
+models_weights/
+notebooks/
+results/
+data/

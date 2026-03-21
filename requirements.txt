@@ -33,3 +33,27 @@ sentencepiece
 # ── Utilities ──
 joblib
 tqdm
+
+# ── CI/CD LangGraph Analyzer ──
+google-genai==1.66.0
+langchain-google-genai==2.0.7
+langgraph==1.0.10
+mem0ai==1.0.5
+qdrant-client==1.13.3
+tenacity==9.1.2
+python-dotenv==1.1.0
+drain3==0.9.11
+fastapi==0.115.12
+uvicorn==0.34.0
+langgraph-prebuilt==1.0.8
+langgraph-checkpoint-sqlite==2.0.10
+pydantic==2.12.5
+pydantic-settings==2.8.1
+rank-bm25==0.2.2
+arq==0.26.1
+httpx==0.28.1
+langsmith>=0.3.45
+aiosqlite==0.21.0
+redis==5.2.1
+cryptography==44.0.2
+asyncio-throttle==1.0.2
