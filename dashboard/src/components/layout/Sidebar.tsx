@@ -21,7 +21,6 @@ const MAIN_NAV = [
 ];
 
 const SETTINGS_NAV = [
-    { to: '/settings/billing', icon: CreditCard, label: 'Billing', badge: 'Pro' },
     { to: '/settings/team', icon: Users, label: 'Team' },
     { to: '/settings/notifications', icon: Bell, label: 'Notifications' },
     { to: '/settings/api-keys', icon: Key, label: 'API keys' },
@@ -43,8 +42,8 @@ export function Sidebar() {
     // Active link styles
     const getLinkClass = (isActive: boolean) => {
         return `group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 relative overflow-hidden ${isActive
-                ? 'bg-indigo-500/10 text-white'
-                : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
+            ? 'bg-indigo-500/10 text-white'
+            : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
             }`;
     };
 
@@ -106,18 +105,13 @@ export function Sidebar() {
                     {/* Settings Routes */}
                     <nav className="space-y-0.5" aria-label="Settings Navigation">
                         <p className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Settings</p>
-                        {SETTINGS_NAV.map(({ to, icon: Icon, label, badge }) => (
+                        {SETTINGS_NAV.map(({ to, icon: Icon, label }) => (
                             <NavLink key={to} to={to} className={({ isActive }) => getLinkClass(isActive)}>
                                 {({ isActive }) => (
                                     <>
                                         {isActive && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-indigo-500 rounded-r-full shadow-[0_0_8px_rgba(99,102,241,0.8)]" />}
                                         <Icon size={16} className={getIconClass(isActive)} />
                                         <span className="flex-1 truncate leading-none pt-px">{label}</span>
-                                        {badge && (
-                                            <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-widest font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                                                {badge}
-                                            </span>
-                                        )}
                                     </>
                                 )}
                             </NavLink>
@@ -133,7 +127,7 @@ export function Sidebar() {
                             <span className="relative flex h-2 w-2">
                                 {wsState === 'connected' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>}
                                 <span className={`relative inline-flex rounded-full h-2 w-2 ${wsState === 'connected' ? 'bg-emerald-500' :
-                                        wsState === 'reconnecting' ? 'bg-amber-500' : 'bg-rose-500'
+                                    wsState === 'reconnecting' ? 'bg-amber-500' : 'bg-rose-500'
                                     }`}></span>
                             </span>
                             <span className="text-xs text-slate-400 font-medium capitalize truncate">
@@ -227,15 +221,10 @@ export function Sidebar() {
 
                                 <nav className="space-y-1">
                                     <p className="px-2 text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Workspace Settings</p>
-                                    {SETTINGS_NAV.map(({ to, icon: Icon, label, badge }) => (
+                                    {SETTINGS_NAV.map(({ to, icon: Icon, label }) => (
                                         <NavLink key={to} to={to} className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${isActive ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-300 active:bg-white/5'}`}>
                                             <Icon size={16} />
                                             <span className="flex-1">{label}</span>
-                                            {badge && (
-                                                <span className="px-1.5 py-0.5 rounded text-[9px] uppercase tracking-widest font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">
-                                                    {badge}
-                                                </span>
-                                            )}
                                         </NavLink>
                                     ))}
                                 </nav>

@@ -13,7 +13,6 @@ import { Card } from '../components/ui/Card';
 import { ErrorTypeBadge } from '../components/shared/ErrorTypeBadge';
 import { NODE_LABELS } from '../lib/constants';
 import { RepoManager } from './RepoManager';
-import { Billing } from './Billing';
 import { TeamMembers } from './TeamMembers';
 import { NotificationSettings } from './NotificationSettings';
 import { ApiKeys } from './ApiKeys';
@@ -675,14 +674,13 @@ const NAV_ITEMS = [
     { key: 'gates', label: 'Remediation Gates', Icon: Shield },
     { key: 'memory', label: 'Memory Management', Icon: Brain },
     { key: 'model', label: 'Model Config', Icon: Cpu },
-    { key: 'billing', label: 'Plan & Billing', Icon: DollarSign },
     { key: 'danger', label: 'Danger Zone', Icon: Flame },
 ];
 
 const SECTIONS: Record<string, () => JSX.Element> = {
     repos: RepoManager, webhook: WebhookSection, team: TeamMembers,
     apiKeys: ApiKeys, notifications: NotificationSettings, gates: RemediationSection,
-    memory: MemorySection, model: ModelSection, billing: Billing,
+    memory: MemorySection, model: ModelSection,
     danger: DangerSection,
 };
 

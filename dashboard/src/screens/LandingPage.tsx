@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Play, Check, X, ChevronDown, ArrowRight, Zap, Target, Shield, Clock } from 'lucide-react';
 
 export function LandingPage() {
-    const [isAnnual, setIsAnnual] = useState(true);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const faqs = [
@@ -41,45 +40,7 @@ export function LandingPage() {
         }
     ];
 
-    const pricing = [
-        {
-            name: "Starter",
-            price: "Free",
-            features: [
-                { name: "3 repos", included: true },
-                { name: "100 analyses/month", included: true },
-                { name: "Email notifications only", included: true },
-                { name: "Community support", included: true },
-                { name: "Auto-remediation", included: false },
-                { name: "mem0 memory per workspace", included: false },
-            ]
-        },
-        {
-            name: "Pro",
-            price: isAnnual ? "$29" : "$35",
-            period: "/month per workspace",
-            popular: true,
-            features: [
-                { name: "Unlimited repos", included: true },
-                { name: "Unlimited analyses", included: true },
-                { name: "Slack + PagerDuty + Jira", included: true },
-                { name: "Auto-remediation", included: true },
-                { name: "mem0 memory per workspace", included: true },
-                { name: "Priority support", included: true },
-            ]
-        },
-        {
-            name: "Enterprise",
-            price: "Custom",
-            features: [
-                { name: "SSO / SAML", included: true },
-                { name: "Custom model config", included: true },
-                { name: "SLA guarantee", included: true },
-                { name: "Dedicated Slack channel", included: true },
-                { name: "On-prem deployment option", included: true },
-            ]
-        }
-    ];
+
 
     return (
         <div className="min-h-screen bg-[#0A0A0F] text-slate-200 font-sans selection:bg-indigo-500/30">
@@ -305,80 +266,23 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* PRICING SECTION */}
+            {/* GITHUB INTEGRATION SECTION */}
             <section className="py-32 px-6 max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Pricing for scale</h2>
-                    <div className="flex items-center justify-center gap-3">
-                        <span className={`text-sm ${!isAnnual ? 'text-white font-medium' : 'text-[#A1A1B5]'}`}>Monthly</span>
-                        <button
-                            onClick={() => setIsAnnual(!isAnnual)}
-                            className="w-12 h-6 rounded-full bg-white/10 relative p-1 transition-colors hover:bg-white/20"
-                        >
-                            <motion.div
-                                className="w-4 h-4 bg-indigo-500 rounded-full"
-                                animate={{ x: isAnnual ? 24 : 0 }}
-                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                            />
-                        </button>
-                        <span className={`text-sm flex items-center gap-2 ${isAnnual ? 'text-white font-medium' : 'text-[#A1A1B5]'}`}>
-                            Annually <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] uppercase font-bold">Save 20%</span>
-                        </span>
+                <div className="bg-gradient-to-br from-indigo-900/20 to-violet-900/20 border border-indigo-500/20 rounded-3xl p-10 md:p-16 text-center max-w-4xl mx-auto flex flex-col items-center">
+                    <div className="w-20 h-20 rounded-2xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 mb-8 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
+                        <Github className="w-10 h-10 text-white" />
                     </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-                    {pricing.map((tier, i) => (
-                        <div
-                            key={tier.name}
-                            className={`bg-white/[0.02] border rounded-2xl p-8 relative flex flex-col ${tier.popular
-                                    ? 'border-indigo-500 shadow-[0_0_30px_rgba(79,70,229,0.15)] md:-mt-8 md:mb-8 bg-[#0F0F16]'
-                                    : 'border-white/[0.05] hover:border-white/10'
-                                }`}
-                        >
-                            {tier.popular && (
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">
-                                    Most Popular
-                                </div>
-                            )}
-
-                            <h3 className="text-xl font-medium text-white mb-2">{tier.name}</h3>
-                            <div className="mb-6">
-                                <AnimatePresence mode="wait">
-                                    <motion.span
-                                        key={tier.price}
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 10 }}
-                                        className="text-4xl font-bold text-white"
-                                    >
-                                        {tier.price}
-                                    </motion.span>
-                                </AnimatePresence>
-                                {tier.period && <span className="text-[#A1A1B5] ml-1">{tier.period}</span>}
-                            </div>
-
-                            <button className={`w-full py-3 rounded-lg font-medium mb-8 transition-colors ${tier.popular
-                                    ? 'bg-indigo-600 hover:bg-indigo-500 text-white'
-                                    : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
-                                }`}>
-                                {tier.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
-                            </button>
-
-                            <div className="flex-1 flex flex-col gap-4">
-                                {tier.features.map((f, j) => (
-                                    <div key={j} className="flex items-start gap-3">
-                                        {f.included ? (
-                                            <Check className="w-5 h-5 text-emerald-400 shrink-0" />
-                                        ) : (
-                                            <X className="w-5 h-5 text-white/20 shrink-0" />
-                                        )}
-                                        <span className={`text-sm ${f.included ? 'text-slate-300' : 'text-slate-600'}`}>{f.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Connect once, automate forever.</h2>
+                    <p className="text-[#A1A1B5] text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
+                        Authorize the PipelineIQ GitHub App to instantly enable webhooks. Every time a workflow fails, PipelineIQ instantly triggers, analyzes the logs, and opens a PR with the precise fix.
+                    </p>
+                    <button className="h-14 px-8 rounded-lg bg-white text-[#111118] font-bold text-lg hover:bg-slate-200 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all flex items-center justify-center gap-2 group">
+                        <Github className="w-5 h-5" />
+                        <span>Connect GitHub Repository</span>
+                    </button>
+                    <p className="mt-6 text-sm text-indigo-300 flex items-center gap-2 font-medium">
+                        <Shield className="w-4 h-4" /> Secure, scoped access. We never read your source code.
+                    </p>
                 </div>
             </section>
 
@@ -445,7 +349,6 @@ export function LandingPage() {
                             <ul className="flex flex-col gap-3 text-sm text-[#A1A1B5]">
                                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Features</a></li>
                                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Integrations</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Pricing</a></li>
                                 <li><a href="#" className="hover:text-indigo-400 transition-colors">Changelog</a></li>
                             </ul>
                         </div>
