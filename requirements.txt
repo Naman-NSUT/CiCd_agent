@@ -57,3 +57,5 @@ aiosqlite==0.21.0
 redis==5.2.1
 cryptography==44.0.2
 asyncio-throttle==1.0.2
+neo4j
+langchain-neo4j

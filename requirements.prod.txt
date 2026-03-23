@@ -222,3 +222,5 @@ xgboost==3.2.0
 xxhash==3.6.0
 yarl==1.23.0
 zstandard==0.25.0
+neo4j
+langchain-neo4j
