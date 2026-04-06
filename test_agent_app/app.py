@@ -41,8 +41,7 @@ def add_task(task: TaskCreate):
     new_task = {
         "id": current_id,
         "title": task.title.strip(),
-        "completed": False
-    }
+        "completed": True
     db.append(new_task)
     current_id += 1
     return new_task
