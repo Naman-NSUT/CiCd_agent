@@ -33,7 +33,7 @@ async def serve_frontend():
 def get_tasks():
     return db
 
-@app.post("/api/tasks", response_model=TaskResponse)
+@app.post("/api/tasxxxxxxxxxxxxxxxxxxks", response_model=TaskResponse)
 def add_task(task: TaskCreate):
     global current_id
     if not task.title.strip():
