@@ -37,6 +37,18 @@ jobs:
       - name: Verify imports
         run: python -c "import ci_cd_analyzer.graph; print('Import OK')"
 
+      - name: Run Demo Web App Tests
+        run: pip install pytest fastapi httpx uvicorn && pytest test_agent_app/test_app.py
+
       - name: Run regression suite
         run: python -m ci_cd_analyzer.eval_runner --threshold 0.90
         # Exits with code 1 if accuracy < 90%, failing the workflow
+
+      - name: Autonomous CI Repair Agent
+        if: failure()
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "PipelineIQ: Autonomously repairing failed pipeline..."
+          python -m ci_repair_agent.main
