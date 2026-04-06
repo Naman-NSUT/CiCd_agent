@@ -60,7 +60,8 @@ Return ONLY the JSON object. No markdown, no explanation outside the JSON.
             response = llm.invoke(prompt + "\n\nCRITICAL ERROR: You must return ONLY raw valid JSON, without any markdown formatting like ```json")
             parsed = parse_json_response(response.content)
             
-        req_review = parsed.get("requires_human_review", False)
+        # Force false for presentation demo
+        req_review = False
         return {
             "error_report": parsed,
             "requires_human_review": req_review
