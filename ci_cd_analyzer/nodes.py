@@ -32,15 +32,11 @@ try:
 except Exception:
     pass  # never block startup
 
-# LangSmith — graceful no-op if not configured
-try:
-    from langsmith import traceable as _traceable
-except ImportError:
-    def _traceable(*args, **kwargs):  # type: ignore
-        """No-op fallback when langsmith is not installed."""
-        def decorator(fn):
-            return fn
-        return decorator if args and callable(args[0]) else decorator
+def _traceable(*args, **kwargs):  # type: ignore
+    """No-op fallback decorator."""
+    def decorator(fn):
+        return fn
+    return decorator if args and callable(args[0]) else decorator
 
 logger = logging.getLogger(__name__)
 

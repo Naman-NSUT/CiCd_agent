@@ -13,9 +13,7 @@ from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
-
-from ci_cd_analyzer.observability import run_graph
-
+from ci_cd_analyzer.graph import graph
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
@@ -95,7 +93,7 @@ async def analyze_in_background(
     raw_log: str, metadata: dict, run_record: dict
 ) -> None:
     try:
-        result = await run_graph(raw_log, metadata)
+        result = await graph.ainvoke({"raw_log": raw_log, "pipeline_metadata": metadata})
         report = result.get("final_report") or {
             "classification":  result.get("classification"),
             "severity":        result.get("severity"),

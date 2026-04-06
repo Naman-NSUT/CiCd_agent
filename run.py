@@ -8,9 +8,6 @@ Usage:
 
     # One-shot from a file
     python run.py --log-file /var/log/ci/build.log --repo acme/api --branch main
-
-    # Run LangSmith regression suite
-    python run.py --eval
 """
 
 import argparse
@@ -35,8 +32,8 @@ def _build_metadata(args) -> dict:
 
 
 async def _analyze(raw_log: str, metadata: dict) -> dict:
-    from ci_cd_analyzer.observability import run_graph
-    return await run_graph(raw_log, metadata)
+    from ci_cd_analyzer.graph import graph
+    return await graph.ainvoke({"raw_log": raw_log, "pipeline_metadata": metadata})
 
 
 def main():
@@ -47,26 +44,9 @@ def main():
     parser.add_argument("--stage",  default="",               help="Pipeline stage")
     parser.add_argument("--team",   default="",               help="Owning team")
     parser.add_argument("--run-id", default="",               help="CI run ID")
-    parser.add_argument("--eval",   action="store_true",      help="Run regression suite instead")
-    parser.add_argument("--create-dataset", action="store_true",
-                        help="Create LangSmith golden dataset and exit")
     args = parser.parse_args()
 
-    # ── Dataset creation mode ──────────────────────────────────────────
-    if args.create_dataset:
-        from ci_cd_analyzer.eval_dataset import create_langsmith_dataset
-        create_langsmith_dataset()
-        sys.exit(0)
 
-    # ── Regression eval mode ───────────────────────────────────────────
-    if args.eval:
-        from ci_cd_analyzer.eval_runner import run_regression_suite
-        try:
-            run_regression_suite()
-        except AssertionError as e:
-            print(f"❌ {e}")
-            sys.exit(1)
-        sys.exit(0)
 
     # ── Analysis mode ──────────────────────────────────────────────────
     if args.log_file:

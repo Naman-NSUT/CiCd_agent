@@ -16,7 +16,6 @@ pydantic-settings
 rank-bm25
 arq
 httpx
-langsmith
 aiosqlite
 redis
 cryptography

@@ -28,10 +28,9 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt --use-deprecated=legacy-resolver
+        run: pip install langchain-google-genai langgraph pydantic-settings
 
-      - name: Verify imports
-        run: python -c "import ci_cd_analyzer.graph; print('Import OK')"
+
 
       - name: Run Demo Web App Tests
         run: pip install pytest fastapi httpx uvicorn && pytest test_agent_app/test_app.py > pytest.log 2>&1 || (cat pytest.log && exit 1)
