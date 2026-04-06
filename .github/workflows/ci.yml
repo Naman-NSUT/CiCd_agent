@@ -38,7 +38,7 @@ jobs:
         run: python -c "import ci_cd_analyzer.graph; print('Import OK')"
 
       - name: Run Demo Web App Tests
-        run: pip install pytest fastapi httpx uvicorn && pytest test_agent_app/test_app.py
+        run: pip install pytest fastapi httpx uvicorn && pytest test_agent_app/test_app.py > pytest.log 2>&1 || (cat pytest.log && exit 1)
 
       - name: Run regression suite
         run: python -m ci_cd_analyzer.eval_runner --threshold 0.90
@@ -52,5 +52,6 @@ jobs:
         run: |
           echo "PipelineIQ: Autonomously repairing failed pipeline..."
           pip install -r requirements.txt
-          pip install langgraph langchain-google-genai google-genai
-          python -m ci_repair_agent.main
+          pip install langgraph langchain-google-genai google-genai jq
+          jq -n --rawfile log pytest.log '{ci_logs: "", test_report: $log, file_tree: ["test_agent_app/app.py", "test_agent_app/test_app.py", "test_agent_app/index.html"], trigger_branch: "main"}' > agent_payload.json
+          python -m ci_repair_agent.main agent_payload.json
