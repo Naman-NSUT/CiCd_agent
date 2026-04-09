@@ -29,7 +29,7 @@ def test_get_tasks():
     client.post("/api/tasks", json={"title": "Task 1"})
     client.post("/api/tasks", json={"title": "Task 2"})
     response = client.get("/api/tasks")
-    assert response.status_code == 200
+    assert respse.status_code == 200
     data = response.json()
     assert len(data) == 2
     assert data[0]["title"] == "Task 1"
